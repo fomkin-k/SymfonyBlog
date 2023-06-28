@@ -8,26 +8,66 @@ use Symfony\Component\Routing\Annotation\Route;
 
 class BlogController extends AbstractController
 {
-    #[Route('/')]
+    #[Route('/', name: 'app_homepage')]
     public function homepage(): Response
     {
-        $titles = [
-            ['song' => 'Gangsta\'s Paradise', 'artist' => 'Coolio'],
-            ['song' => 'Waterfalls', 'artist' => 'TLC'],
-            ['song' => 'Creep', 'artist' => 'Radiohead'],
-            ['song' => 'Kiss from a Rose', 'artist' => 'Seal'],
-            ['song' => 'On Bended Knee', 'artist' => 'Boyz II Men'],
-            ['song' => 'Fantasy', 'artist' => 'Mariah Carey'],
-        ];
+        $users=$this->getUsers();
         return $this->render('blog/homepage.html.twig',[
-            'blog_title'=>'My blog',
-            'titles' => $titles,
+            'blog_title'=>'Symfony Blog',
+            'users'=>$users,
         ]);
     }
 
+    #[Route('/{login}',name: 'app_user_posts')]
+    public function user_posts($login=''): Response
+    {
+        $posts=$this->getPosts();
+        $user_posts=[];
+        for($i=0,$size = count($posts); $i < $size; $i++){
+            if($posts[$i]['author']==$login){
+            array_push($user_posts,$posts[$i]);
+            }
+        }
+        $users=$this->getUsers();
+        for($i=0,$size = count($users); $i < $size; $i++){
+            if($users[$i]['login']==$login){
+            $full_name=$users[$i]['full_name'];
+            }
+        }
+        return $this->render('blog/user_posts.html.twig',[
+            'full_name'=>$full_name,
+            'user_posts'=>$user_posts,
+        ]);
+    }
+    #[Route('/{login}/posts/{id}',name: 'app_post_show')]
+    public function post_show(string $login='',$id=1): Response
+    {
+        $posts=$this->getPosts();
+        $user_posts=[];
+        for($i=0,$size = count($posts); $i < $size; $i++){
+            if($posts[$i]['author']==$login){
+            array_push($user_posts,$posts[$i]);
+            }
+        }
+        for($i=0,$size = count($posts); $i < $size; $i++){
+            if($user_posts[$i]['id']==$id){
+                $post=$user_posts[$i];
+            }
+        }
+        $users=$this->getUsers();
+        for($i=0,$size = count($users); $i < $size; $i++){
+            if($users[$i]['login']==$login){
+            $full_name=$users[$i]['full_name'];
+            }
+        }
+        return $this->render('blog/user_posts.html.twig',[
+            'full_name'=>$full_name,
+            'user_posts'=>$user_posts,
+            'post'=>$post,
+        ]);
+    }
     private function getPosts(): array
     {
-        // temporary fake "mixes" data
         return [
             [
                 'id'=>1,
@@ -68,7 +108,6 @@ class BlogController extends AbstractController
 
     private function getUsers(): array
     {
-        // temporary fake "mixes" data
         return [
             [
                 'id'=>1,
@@ -96,7 +135,6 @@ class BlogController extends AbstractController
 
     private function getComments(): array
     {
-        // temporary fake "mixes" data
         return [
             [
                 'id'=>1,

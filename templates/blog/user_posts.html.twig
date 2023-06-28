@@ -1,0 +1,22 @@
+{% extends 'base.html.twig' %}
+
+{% block body_id 'homepage' %}
+
+
+{% block main %}
+  <div class="container"> 
+    <article class="post">  
+    {% for post in user_posts %}
+      <h3><a href="#"></a>{{ post.title }}</h2>
+      <p class="post-metadata">
+        <span class="metadata"><i class="fa fa-calendar"></i> {{ post.createdAt }}</span>
+        <span class="metadata"><i class="fa fa-user"></i> {{ post.author }}</span>
+        <span class="metadata"><i class="fa fa-tag"></i> {{ post.topic }}</span>
+      </p>
+      {{post.text}}
+      <p>
+      </p>
+    {% endfor %}
+    </article>
+  </div>
+{% endblock %}
