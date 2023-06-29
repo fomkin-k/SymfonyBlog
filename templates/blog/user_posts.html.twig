@@ -7,7 +7,7 @@
   <div class="container"> 
     <article class="post">  
     {% for post in user_posts %}
-      <h3><a href="#"></a>{{ post.title }}</h2>
+      <h3><a href="{{ path('app_post_show',{login: user.login, id: post.id })}}">{{ post.title }}</a></h2>
       <p class="post-metadata">
         <span class="metadata"><i class="fa fa-calendar"></i> {{ post.createdAt }}</span>
         <span class="metadata"><i class="fa fa-user"></i> {{ post.author }}</span>
@@ -20,3 +20,4 @@
     </article>
   </div>
 {% endblock %}
+

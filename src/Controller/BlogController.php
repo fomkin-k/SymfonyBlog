@@ -31,16 +31,17 @@ class BlogController extends AbstractController
         $users=$this->getUsers();
         for($i=0,$size = count($users); $i < $size; $i++){
             if($users[$i]['login']==$login){
-            $full_name=$users[$i]['full_name'];
+            $user=$users[$i];
             }
         }
         return $this->render('blog/user_posts.html.twig',[
-            'full_name'=>$full_name,
+            'user'=>$user,
             'user_posts'=>$user_posts,
         ]);
     }
+
     #[Route('/{login}/posts/{id}',name: 'app_post_show')]
-    public function post_show(string $login='',$id=1): Response
+    public function post_show($login='',$id): Response
     {
         $posts=$this->getPosts();
         $user_posts=[];
@@ -49,7 +50,7 @@ class BlogController extends AbstractController
             array_push($user_posts,$posts[$i]);
             }
         }
-        for($i=0,$size = count($posts); $i < $size; $i++){
+        for($i=0,$size = count($user_posts); $i < $size; $i++){
             if($user_posts[$i]['id']==$id){
                 $post=$user_posts[$i];
             }
@@ -57,12 +58,11 @@ class BlogController extends AbstractController
         $users=$this->getUsers();
         for($i=0,$size = count($users); $i < $size; $i++){
             if($users[$i]['login']==$login){
-            $full_name=$users[$i]['full_name'];
+            $user=$users[$i];
             }
         }
-        return $this->render('blog/user_posts.html.twig',[
-            'full_name'=>$full_name,
-            'user_posts'=>$user_posts,
+        return $this->render('blog/post_show.html.twig',[
+            'user'=>$user,
             'post'=>$post,
         ]);
     }
