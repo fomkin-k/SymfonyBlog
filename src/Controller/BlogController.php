@@ -18,7 +18,7 @@ class BlogController extends AbstractController
         ]);
     }
 
-    #[Route('/{login}',name: 'app_user_posts')]
+    #[Route('/blog/{login}',name: 'app_user_posts')]
     public function user_posts($login=''): Response
     {
         $posts=$this->getPosts();
@@ -40,7 +40,7 @@ class BlogController extends AbstractController
         ]);
     }
 
-    #[Route('/{login}/posts/{id}',name: 'app_post_show')]
+    #[Route('/blog/{login}/posts/{id}',name: 'app_post_show')]
     public function post_show($login='',$id): Response
     {
         $posts=$this->getPosts();

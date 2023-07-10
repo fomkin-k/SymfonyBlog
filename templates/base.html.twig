@@ -18,25 +18,40 @@
     <header>
         <div class="container">
             <!-- Navbar -->
-            <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
-                <a class="navbar-brand" href="#">Navbar</a>
+            <nav class="navbar navbar-expand-lg navbar-dark bg-primary px-1">
+                <a class="navbar-brand" href="#">SymfonyBlog</a>
                 <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
                 </button>
                 <div class="collapse navbar-collapse" id="navbarNav">
                     <ul class="navbar-nav">
-                    <li class="nav-item active">
-                        <a class="nav-link" href="{{ path('app_homepage') }}">Home <span class="sr-only">(current)</span></a>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ path('app_homepage') }}">Блог</a>
+                    </li>
+                    {% if is_granted('ROLE_ADMIN') %}
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ path('app_homepage') }}">Пользователи</a>
+                    </li>
+                    {% endif %}
+                    {% if is_granted('ROLE_USER') %}
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ path('app_homepage') }}">Посты</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="#">Features</a>
+                        <a class="nav-link" href="{{ path('app_homepage') }}">Профиль</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="#">Pricing</a>
+                        <a class="nav-link" href="{{ path('app_logout') }}">Выйти</a>
+                    </li>
+                    {% else %}
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ path('app_login') }}">Войти</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link disabled" href="#">Disabled</a>
+                        <a class="nav-link" href="{{ path('app_register') }}">Зарегистрироваться</a>
                     </li>
+                    {% endif %}
+
                     </ul>
                 </div>
             </nav>
@@ -44,10 +59,8 @@
         </div>
   </header>
 {% endblock %}
-        {% block body %}
-            <div class="container body-container">
-                {% block main %}{% endblock %}
-            </div>
-        {% endblock %}
+        <div class="container body-container">
+            {% block body %}{% endblock %}
+        </div>
     </body>
 </html>
