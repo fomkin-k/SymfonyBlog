@@ -49,6 +49,7 @@ class Post
     {
         $this->publishedAt = new \DateTime();
         $this->comments = new ArrayCollection();
+        $this->deletedAt=NULL;
     }
 
     public function getId(): ?int

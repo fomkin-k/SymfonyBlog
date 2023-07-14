@@ -5,13 +5,16 @@
     <article class="post">  
     <h3>{{ post.title}}</h3>
     <p class="post-metadata">
-        <span class="metadata"><i class="fa fa-calendar"></i> {{ post.createdAt }}</span>
-        <span class="metadata"><i class="fa fa-user"></i> {{ post.author }}</span>
-        <span class="metadata"><i class="fa fa-tag"></i> {{ post.topic }}</span>
+        <span class="metadata border border-primary"><i class="fa fa-calendar"></i> {{ post.publishedAt|format_datetime('long', 'medium', '', 'UTC') }}</span>
+        <span class="metadata border border-primary"><i class="fa fa-user"></i> {{ post.author.fullName }}</span>
+        <span class="metadata border border-primary"><i class="fa fa-tag"></i> {{ post.topic }}</span>
     </p>
     <p>
-        {{post.text}}
+        {{post.content}}
     </p>
+              <a class="btn btn-primary" href="{{ path('app_show_comments', {
+                id: post.id
+            }) }}" role="button">Показать комментарии</a>
     </article>
   </div>
 {% endblock %}

@@ -11,6 +11,8 @@ use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Validator\Constraints as Assert;
 use Ramsey\Uuid\Uuid;
 use Ramsey\Uuid\UuidInterface;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 
 #[ORM\Entity(repositoryClass: UserRepository::class)]
 #[ORM\Table(name: '`user`')]
@@ -43,6 +45,17 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
      */
     #[ORM\Column]
     private ?string $password = null;
+
+    #[ORM\OneToMany(mappedBy: 'owner', targetEntity: Post::class)]
+    #[ORM\OrderBy(['publishedAt' => 'ASC'])]
+    private Collection $posts;
+
+    public function __construct()
+    {
+        $this->posts = new ArrayCollection();
+        $this->deletedAt = NULL;
+        $this->bannedUntil = NULL;
+    }
 
     #[ORM\Column(type: Types::DATETIME_MUTABLE, nullable: true)]
     private ?\DateTimeInterface $deletedAt = null;
@@ -178,4 +191,34 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
         return $this;
     }
+
+    public function getPosts(): Collection
+    {
+        return $this->posts;
+    }
+
+    public function addPost(Post $post): self
+    {
+        if (!$this->posts->contains($post)) {
+            $this->posts[] = $post;
+            $post->setAuthor($this);
+        }
+        return $this;
+    }
+
+    public function removePost(Post $post): self
+    {
+        $post->setDeletedAt(new \DateTime());
+        return $this;
+    }
+
+    // public function havePosts(): bool
+    // {
+    //     if( $this->getPosts()->isEmpty()){
+    //         return false;
+    //     }
+    //     else{
+    //         return true;
+    //     }
+    // }
 }

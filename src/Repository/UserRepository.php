@@ -8,6 +8,7 @@ use Doctrine\Persistence\ManagerRegistry;
 use Symfony\Component\Security\Core\Exception\UnsupportedUserException;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\PasswordUpgraderInterface;
+use Doctrine\ORM\QueryBuilder;
 
 /**
  * @extends ServiceEntityRepository<User>
@@ -55,6 +56,30 @@ class UserRepository extends ServiceEntityRepository implements PasswordUpgrader
 
         $this->save($user, true);
     }
+
+
+
+   public function findOneUserByLogin(string $login): ?User
+   {
+       return $this->createQueryBuilder('u')
+           ->andWhere('u.login = :val')
+           ->setParameter('val', $login)
+           ->getQuery()
+           ->getOneOrNullResult()
+       ;
+   }
+
+   public function findAllAuthors(): array
+   {
+        $entityManager = $this->getEntityManager();
+        $query = $entityManager->createQuery(
+            'SELECT u 
+             FROM App\Entity\User u 
+             JOIN u.posts p 
+             WHERE p.author IS NOT NULL');
+       return $query->getResult();
+       
+   }
 
 //    /**
 //     * @return User[] Returns an array of User objects

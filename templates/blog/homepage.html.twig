@@ -6,9 +6,10 @@
   <div class="container"> 
     <article class="post">  
     {% for user in users %}
-      <h3><a href="{{ path('app_user_posts', {login: user.login}) }}">{{ user.full_name }}</a></h2>
+      <h3><a href="{{ path('app_user_posts', {login: user.login}) }}">{{ user.fullName }}</a></h2>
       
-      <p>{{ user.email }}
+      <p>
+        {{ user.email }}
       </p>
     {% endfor %}
     </article>

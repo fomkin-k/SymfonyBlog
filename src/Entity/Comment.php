@@ -35,6 +35,7 @@ class Comment
     public function __construct()
     {
         $this->publishedAt = new \DateTime();
+        $this->deletedAt = NULL;
     }
 
     public function getId(): ?int

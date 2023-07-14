@@ -3,6 +3,7 @@
 namespace App\Repository;
 
 use App\Entity\Comment;
+use App\Entity\Post;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
@@ -37,6 +38,18 @@ class CommentRepository extends ServiceEntityRepository
         if ($flush) {
             $this->getEntityManager()->flush();
         }
+    }
+
+    public function findAllPostComments(Post $post): array
+    {
+        $qb= $this->createQueryBuilder('c')
+            ->where('c.post = :id')
+            ->andWhere('c.deletedAt IS NULL')
+            ->setParameter('id',$post)
+            ->orderBy('c.publishedAt','ASC');
+
+        $query=$qb->getQuery();
+        return $query->execute();
     }
 
 //    /**

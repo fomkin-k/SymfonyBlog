@@ -1,0 +1,32 @@
+{% extends 'base.html.twig' %}
+
+
+{% block body %}
+<div class="container">
+  <article class="post">
+    {% for user in users %}
+    <h3><a href="{{ path('app_user_posts', {login: user.login}) }}">{{ user.fullName }}</a></h2>
+
+      <p>
+        {{ user.email }}
+      </p>
+      <div>
+        <a class="btn btn-primary" href="#" role="button">Удалить</a>
+        <a class="btn btn-primary" href="#" role="button">Заблокировать</a>
+        <a class="btn btn-primary" href="#" role="button">Разблокировать</a>
+      </div>
+      {# <div class="btn-group" role="group">
+        <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton1"
+          data-bs-toggle="dropdown" aria-expanded="false">
+          Кнопка выпадающего списка
+        </button>
+        <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+          <li><a class="dropdown-item" href="#">Действие</a></li>
+          <li><a class="dropdown-item" href="#">Другое действие</a></li>
+          <li><a class="dropdown-item" href="#">Что-то еще здесь</a></li>
+        </ul>
+      </div> #}
+      {% endfor %}
+  </article>
+</div>
+{% endblock %}

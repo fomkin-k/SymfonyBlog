@@ -6,22 +6,24 @@
     <div class="container">
         <div class="row">
             <div class="bg-light mt-4 p-4">
-                <h1>Register</h1>
+                <h1>Регистрация</h1>
                 {{ form_start(registrationForm) }}
                     {{ form_row(registrationForm.login, {
-                        label: 'Login'
+                        label: 'Логин'
                     }) }}
                     {{ form_row(registrationForm.fullName, {
-                        label: 'FullName'
+                        label: 'Полное имя'
                     }) }}
                     {{ form_row(registrationForm.email, {
-                        label: 'Email'
+                        label: 'Электронная почта'
                     }) }}
                     {{ form_row(registrationForm.plainPassword, {
-                        label: 'Password'
+                        label: 'Пароль'
                     }) }}
-                    {{ form_row(registrationForm.agreeTerms) }}
-                    <button type="submit" class="btn btn-primary">Register</button>
+                    {{ form_row(registrationForm.agreeTerms, {
+                        label: 'Согласие с условиями'
+                    }) }}
+                    <button type="submit" class="btn btn-primary">Зарегистрироваться</button>
                 {{ form_end(registrationForm) }}
             </div>
         </div>

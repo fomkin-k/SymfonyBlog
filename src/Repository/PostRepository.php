@@ -3,6 +3,7 @@
 namespace App\Repository;
 
 use App\Entity\Post;
+use App\Entity\User;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
@@ -38,6 +39,31 @@ class PostRepository extends ServiceEntityRepository
             $this->getEntityManager()->flush();
         }
     }
+
+    /**
+     * @return Product[]
+     */
+    public function findAllUserPosts(User $author): array
+    {
+        $qb= $this->createQueryBuilder('p')
+            ->where('p.author = :id')
+            ->andWhere('p.deletedAt IS NULL')
+            ->setParameter('id',$author)
+            ->orderBy('p.publishedAt','DESC');
+
+        $query=$qb->getQuery();
+        return $query->execute();
+    }
+
+       public function findOnePostById(int $id): ?Post
+   {
+       return $this->createQueryBuilder('p')
+           ->andWhere('p.id = :val')
+           ->setParameter('val', $id)
+           ->getQuery()
+           ->getOneOrNullResult()
+       ;
+   }
 
 //    /**
 //     * @return Post[] Returns an array of Post objects

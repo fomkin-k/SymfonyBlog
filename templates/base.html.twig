@@ -30,15 +30,18 @@
                     </li>
                     {% if is_granted('ROLE_ADMIN') %}
                     <li class="nav-item">
-                        <a class="nav-link" href="{{ path('app_homepage') }}">Пользователи</a>
+                        <a class="nav-link" href="{{ path('admin_users') }}">Пользователи</a>
                     </li>
                     {% endif %}
                     {% if is_granted('ROLE_USER') %}
                     <li class="nav-item">
-                        <a class="nav-link" href="{{ path('app_homepage') }}">Посты</a>
+                        <a class="nav-link" href="{{ path('app_user_posts', {login: app.user.login}) }}">Посты</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="{{ path('app_homepage') }}">Профиль</a>
+                        <a class="nav-link" href="{{ path('app_post_create') }}">Новый пост</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ path('edit_user') }}">Профиль</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="{{ path('app_logout') }}">Выйти</a>

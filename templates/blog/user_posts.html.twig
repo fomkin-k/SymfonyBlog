@@ -1,21 +1,31 @@
 {% extends 'base.html.twig' %}
 
-{% block body_id 'homepage' %}
-
 
 {% block body %}
   <div class="container"> 
     <article class="post">  
-    {% for post in user_posts %}
-      <h3><a href="{{ path('app_post_show',{login: user.login, id: post.id })}}">{{ post.title }}</a></h2>
+    {% for post in userPosts %}
+      <h3><a href="{{ path('app_post_show',{login: post.author.login, id: post.id })}}">{{ post.title }}</a></h3>
       <p class="post-metadata">
-        <span class="metadata"><i class="fa fa-calendar"></i> {{ post.createdAt }}</span>
-        <span class="metadata"><i class="fa fa-user"></i> {{ post.author }}</span>
-        <span class="metadata"><i class="fa fa-tag"></i> {{ post.topic }}</span>
+        <span class="metadata border border-primary"><i class="fa fa-calendar"></i> {{ post.publishedAt|format_datetime('long', 'medium', '', 'UTC') }}</span>
+        <span class="metadata border border-primary"><i class="fa fa-user"></i> {{ post.author.fullName }}</span>
+        <span class="metadata border border-primary"><i class="fa fa-tag"></i> {{ post.topic }}</span>
       </p>
-      {{post.text}}
       <p>
+      {{post.summary}}
       </p>
+      <div>
+        {% if is_granted('POST_EDIT', post) %}
+          <a class="btn btn-primary" href="{{ path('app_post_edit', {
+                id: post.id
+            }) }}" role="button">Редактировать</a>
+        {% endif %}
+                {% if is_granted('POST_DELETE', post) %}
+          <a class="btn btn-primary" href="{{ path('app_post_delete', {
+                id: post.id
+            }) }}" role="button">Удалить</a>
+        {% endif %}
+      </div>
     {% endfor %}
     </article>
   </div>

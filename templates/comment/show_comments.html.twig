@@ -1,0 +1,24 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Hello CommentController!{% endblock %}
+
+{% block body %}
+  <div class="container"> 
+    <article class="post">  
+    <h3>Комментарии к посту:</h3>
+    {% for comment in comments %}
+      <p class="post-metadata">
+        <span class="metadata border border-primary"><i class="fa fa-calendar"></i> {{ comment.publishedAt|format_datetime('long', 'medium', '', 'UTC') }}</span>
+        <span class="metadata border border-primary"><i class="fa fa-user"></i> {{ comment.author.fullName }}</span>
+      </p>
+      <p>
+      {{comment.content}}
+      </p>
+      <div>
+          <a class="btn btn-primary" href="#" role="button">Редактировать</a>
+          <a class="btn btn-primary" href="#" role="button">Удалить</a>
+      </div>
+    {% endfor %}
+    </article>
+  </div>
+{% endblock %}
